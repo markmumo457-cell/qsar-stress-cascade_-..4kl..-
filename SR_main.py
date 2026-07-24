@@ -12,13 +12,25 @@ app = FastAPI(
     description="Multi-gene classifier chain predicting p53, ATAD5, ARE, and MMP disruptions."
 )
 
+import os
+import joblib
+
+# 1. Ask Python exactly where SR_main.py is physically located on the hard drive
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# 2. Attach the model filename to that exact folder location
+model_path = os.path.join(BASE_DIR, "Tox21_stressresponse_cascade.joblib")
+
+# 3. Load the model using that bulletproof path
+#model = joblib.load(model_path)
 # 2. Load the Masterpiece Globally
 # We load the .joblib file OUTSIDE the endpoint. 
 # This way, the server loads the heavy matrix into RAM exactly once when it starts, 
 # rather than reloading it from the hard drive every single time a request comes in.
 
 try:
-    deployed_model = joblib.load(r"C:\Users\Lenovo T560\OneDrive\Desktop\Chemoinformatics\Tox21_stressresponse_cascade.joblib")
+    deployed_model = joblib.load(model_path)
+    #deployed_model = joblib.load("Tox21_stressresponse_cascade.joblib")
 except Exception as e:
     print(f"Failed to load model: {e}")
     deployed_model = None
