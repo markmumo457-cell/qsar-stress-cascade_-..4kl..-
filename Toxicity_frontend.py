@@ -99,7 +99,7 @@ if st.button("Run Biological Cascade"):
         smiles_list = [s.strip() for s in smiles_input.split('\n') if s.strip()]
         
         # 4. Talk to the FastAPI Backend
-        api_url = "http://localhost:8001/diagnose"
+        api_url = "https://molecular-stress-response-api.onrender.com/diagnose"
         payload = {"smiles_list": smiles_list}
         
         with st.spinner("Analyzing structures and rendering UI..."):
